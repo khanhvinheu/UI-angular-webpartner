@@ -1,0 +1,106 @@
+<table [ngClass]="{'d-none': isLoading}" mat-table [dataSource]="dataSource" style="width: 100%;" matSort>
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> No. </th>
+      <td mat-cell *matCellDef="let item; let i =index"> {{i+1}} </td>
+    </ng-container>   
+    <ng-container matColumnDef="Ten">
+      <th mat-header-cell *matHeaderCellDef>Tên Nhân Viên</th>
+      <td class="py-12" mat-cell *matCellDef="let item">
+        <div fxLayout="row wrap" fxLayoutAlign="start center">           
+          <p *ngIf="item.isShow" class="m-0 ml-12 text-capitalize">
+            {{item.user.tenNhanvien}}
+          </p>
+          <mat-form-field *ngIf="!item.isShow" class="m-0 ml-12 text-capitalize">
+            <input matInput type="text" [(ngModel)]="item.user.tenNhanvien">
+          </mat-form-field>  
+        </div>
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="Partner">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Partner </th>
+        <td mat-cell *matCellDef="let item" class="text-left">
+          <span *ngIf="item.isShow">{{item.user.tenCongty}}</span>
+          <!-- <mat-form-field *ngIf="!item.isShow">
+            <input matInput type="text" [(ngModel)]="item.user.partnerID">
+          </mat-form-field>   -->
+          <mat-form-field *ngIf="!item.isShow" appearance="fill">
+            <!-- <mat-label>State</mat-label> -->
+            <mat-select [(value)]="item.user.partnerID">
+              <mat-option>None</mat-option>
+              <mat-option *ngFor="let partner of partner" [value]="partner.id">{{partner.tenCongty}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+        </td>
+      </ng-container>
+    <ng-container matColumnDef="Chucvu">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Chức Vụ </th>
+        <td mat-cell *matCellDef="let item" class="text-left">
+          <span *ngIf="item.isShow">{{item.user.chucVu}}</span>
+          <mat-form-field *ngIf="!item.isShow">
+            <input matInput type="text" [(ngModel)]="item.user.chucVu">
+          </mat-form-field>  
+        </td>
+      </ng-container>
+  
+    <ng-container matColumnDef="Email">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Email </th>
+      <td mat-cell *matCellDef="let item" class="text-left"> {{item.user.email}} </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="Admin">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Admin </th>
+      <td mat-cell *matCellDef="let item">
+        <mat-radio-button [disabled]='(!item.isShow || idtab==0) && currentUser.quyen!=0'
+          [checked]="item.user.quyen===1" (change)="onChangeQuyen(item.user,1)" name="btradio{{item.user.id}}">
+        </mat-radio-button>
+      </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="NhanVien">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>User </th>
+      <td mat-cell *matCellDef="let item">
+        <mat-radio-button [disabled]='(!item.isShow || idtab==0)  && currentUser.quyen!=0'
+          [checked]="item.user.quyen===2" (change)="onChangeQuyen(item.user,2)" name="btradio{{item.user.id}}">
+        </mat-radio-button>
+      </td>
+    </ng-container>   
+    <ng-container matColumnDef="Action">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Action</th>
+      <td mat-cell *matCellDef="let item">
+        <div *ngIf="!item.isShow">
+          <button mat-raised-button color="primary" class="mr-2" (click)="onSaveRow(item)">
+            <mat-icon _ngcontent-cpg-c343="" role="img" class="mat-icon notranslate mb-1 material-icons mat-icon-no-color" aria-hidden="true" style="font-size: 32px;">save</mat-icon>
+          </button>
+          <button mat-raised-button (click)="item.isShow=!item.isShow" color="warn" >
+            <mat-icon _ngcontent-cpg-c343="" role="img" class="mat-icon notranslate mb-1 material-icons mat-icon-no-color" aria-hidden="true" style="font-size: 32px;">clear</mat-icon>
+          </button>
+        </div>
+        <div>
+          <button *ngIf="item.isShow" mat-icon-button t color="warn" (click)="item.isShow=!item.isShow" class="mr-2"
+            [disabled]="(currentUser.id!=item.user.id && idtab==0) && currentUser.quyen!=0">
+            <mat-icon class="mat-18 mat-color-primary">
+              edit
+            </mat-icon>      
+          </button> 
+          <button *ngIf="item.isShow" mat-icon-button t color="warn" (click)="onDelete(item)" class="mr-2"
+            [disabled]="(currentUser.id!=item.user.id && idtab==0) && currentUser.quyen!=0">
+            <mat-icon class="mat-18 mat-color-primary">
+              delete
+            </mat-icon>      
+          </button>
+           
+        </div> 
+  
+      </td>
+    </ng-container>  
+    <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+    <tr mat-row *matRowDef="let row; columns: columnsToDisplay;"></tr>
+  
+  </table>
+  <mat-paginator [pageSizeOptions]="[6,10, 20,50] " showFirstLastButtons></mat-paginator>
+
+  
+
+  
+  

@@ -1,0 +1,20 @@
+<mat-card class="p-0 overflow-x-auto" fxLayout="row wrap">
+    <button type="button" mat-raised-button color="warn" class=" mb-2" (click)="onAdd()"><i class="fa fa-plus"
+                aria-hidden="true"></i> Add new account</button>  
+</mat-card>
+<div class="card m-033">   
+    <div class="card-body p-0 overflow-auto" style="position: sticky;">
+        <mat-tab-group mat-align-tabs="start" animationDuration="0ms">
+            <mat-tab label="Admin">
+                <app-account-list [idtab]="1"></app-account-list>
+            </mat-tab>
+            <mat-tab label="User">
+                <app-account-list [idtab]="2"></app-account-list>
+            </mat-tab>          
+            <mat-tab label="Tài khoản bị khóa">
+                <app-account-list [idtab]="0"></app-account-list>
+            </mat-tab>
+        </mat-tab-group>
+
+    </div>
+</div>
